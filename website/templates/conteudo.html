@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Content{% endblock %}
+
+{% block body %} 
+
+<section id="contact" class="py-5">
+    <div class="container">
+    <div class="jumbotron">
+                <h2>Acess here the Content for your Classes!</h2>
+                <p>Explore our library of resources and documents to enhance your learning experience.</p>
+
+                {% if current_user.nivel_usuario == 'A' %}
+                <p>Level: Beginner</p>
+                {% elif current_user.nivel_usuario == 'B' %}
+                <p>Level: Intermediate</p>
+                {% elif current_user.nivel_usuario == 'C' %}
+                <p>Level: Advanced </p>
+                {% else %}
+                <p>Level: Unleveled student</p>
+                {% endif %}
+                
+          <!-- Links to access documents -->
+          <div class="row">
+            {% for conteudo in conteudos %}
+              <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    
+                      <li>
+                          <a href= {{conteudo.url}} class="btn btn-link" target="_blank">
+                              <i class="far fa-file-word fa-lg"></i> {{conteudo.titulo}}
+                          </a>
+                      </li>
+                    
+                  </ul>
+            
+              </div>
+              
+          {% endfor %}    
+          </div>
+      </div>
+  </section>
+
+{% endblock %}

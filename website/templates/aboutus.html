@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block body %}
+        <body>
+
+            <main>
+                <!-- About Us Page Content -->
+                <section id="about" class="py-5">
+                    <div class="container">
+                    <div class="jumbotron">
+                        <h1 class="display-5">English Learnings</h1>
+                        <p class="lead">Be my guest!</p>
+
+                        <p>I'm a pratical teacher, and I'll guide you to a amazing adventure.</p>
+                        <p class="lead">
+                        </p>
+                    </div>
+                    <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>
+                                <p>Welcome to English Learners, here you can contract a practical English course designed to make learning easy and enjoyable!</p>
+                                <p>Whether you're a beginner or an advanced learner, I will guide you through engaging lessons that focus on real-life communication.</p>
+                                <p>I believe in interactive learning experiences that encourage active participation and skill development. Our classes include a mix of speaking, listening, reading, and writing activities to ensure a well-rounded learning experience.</p></h5>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="https://www.countryflags.com/wp-content/uploads/united-states-of-america-flag-png-large.png" alt="American Flag" class="img-fluid rounded">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <section id="footer">     
+                <p>Developed by <a href="https://github.com/Projeto-Integrador-Tres/projeto_3" target="_blank">Group 016</a> - <span id="ano"></span></p>
+              </section>
+              <script>
+                document.getElementById('ano').textContent = new Date().getFullYear();
+              </script>
+
+        </body>
+{% endblock %}

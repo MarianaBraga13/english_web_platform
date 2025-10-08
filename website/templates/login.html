@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block body %} 
+
+
+    <!-- Password Area -->
+    <section id="contact" class="py-5">
+        <div class="container">
+        <div class="jumbotron">
+      <section id="password" class="bg-light py-5">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-6">
+                      <img src="{{ url_for('static', filename='assets/login.png') }}" alt="Password Recovery Image" class="img-fluid" width="100%">
+                  </div>
+                  <div class="col-md-6">
+                          <h2>Welcome Student!</h2><br>
+                          <p>Acces your Content <div class="form-group">
+                           
+                          </div></p>
+                          <form action="#" method="POST">
+                            <div class="form-group">
+
+                                <label for="Enter your mail"></label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+                                <label for="Enter your password"></label>
+                                <input type="password" class="form-control" name="senha" id="senha" placeholder="Enter your password" required>
+                              
+                            </div>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                                <br>
+                              <di class="password-recover">
+                                 
+                                <br>
+                              <a href="/password-recover"><p>Can't remember your password? Click here!</p></i>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </main>
+
+{% endblock %}

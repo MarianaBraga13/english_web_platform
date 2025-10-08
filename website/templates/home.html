@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %} 
+
+
+ <!-- Content is here -->
+  <section id="home" class="py-2">
+    <div class="container">
+      <div class="jumbotron">
+
+        <h1 class="display-6">Welcome to American English Course</h1><br>
+        <img src="{{ url_for('static', filename='assets/Flag.png') }}" width="20%">
+  <section id="home" class="py-5">
+    <p class="lead">Learn English with our comprehensive course designed to help you achieve your language goals.</p>
+    <p>Subscribe today to get more information and schedule a first free class!</p><br>
+    <a class="btn btn-primary btn-lg" href="/cadastro-usuario" role="button">Sign Up!</a>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block body %} 
+
+
+<!-- Subscription -->
+<section id="contact" class="py-5">
+    <div class="container">
+    <div class="jumbotron">
+  <section id="subscribe" class="bg-light py-5">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-6">
+                  <img src="{{ url_for('static', filename='assets/login.png') }}" alt="Password Recovery Image" class="img-fluid" width="100%">
+              </div>
+              <div class="col-md-6">
+                      <h2>Just for new members!</h2><br>
+                      <p>Subscribe to more information about the classes!</p>
+                      <div class="form-group">
+                      <form action="#" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="nome" id="nome"  placeholder="Enter your name" required>
+                        </div>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+                      </div></p>
+                      <form>
+                          <div class="form-group">
+                              <input type="password" class="form-control" name="senha1" id="senha1" placeholder="Enter your password" required>
+                          </div>
+                          <div class="form-group">
+                            <input type="password" class="form-control" name="senha2" id="senha2" placeholder="Confirm your password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                        <br>
+                          <di class="password">
+                                                          <br>
+                          <a href="/login"><p>I'm already a Student</p></i>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      
+</body>
+</html>
+
+{% endblock %}

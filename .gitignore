@@ -1,0 +1,6 @@
+# Chaves:
+encryption_key.txt
+website/entradaaws.pem
+
+# Flask:
+instance/
