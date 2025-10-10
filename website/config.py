@@ -38,7 +38,7 @@ config = decrypt_config(config_file, key)
 # Configurações do banco de dados PostgreSQL
 db_config = {
     'hostname': config['postgresql']['hostname'],
-    'port': config['postgresql'].getint('port'),
+    'port': int(config['postgresql'].getint('port')),
     'database': config['postgresql']['database'],
     'username': config['postgresql']['username'],
     'password': config['postgresql']['password']
