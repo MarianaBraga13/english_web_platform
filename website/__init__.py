@@ -32,18 +32,23 @@ def create_app(ambiente="local"):
         ssh_user = ssh_config['ssh_user']
         ssh_key_path = ssh_config['ssh_key_path']
 
-        tunnel = SSHTunnelForwarder(
-            (jumpserver, 22),
-            ssh_username=ssh_user,
-            ssh_pkey=ssh_key_path,
-            remote_bind_address=(hostname, port_id)
-        )
+        try:
+            tunnel = SSHTunnelForwarder(
+                (jumpserver, 22),
+                ssh_username=ssh_user,
+                ssh_pkey=ssh_key_path,
+                remote_bind_address=(hostname, port_id)
+            )
+            tunnel.start()
+            local_port = tunnel.local_bind_port
 
-        tunnel.start()
-        local_port = tunnel.local_bind_port
-
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{username}:{pwd}@127.0.0.1:{local_port}/{database}'
-        print(f"Conectado ao banco REMOTO via túnel SSH (porta local{local_port})")
+            app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{username}:{pwd}@127.0.0.1:{local_port}/{database}'
+            print(f"Conectado ao banco REMOTO via túnel SSH (porta local{local_port})")
+        
+        except Exception as e:
+            print("Falha ao conectar via túnel SSH", e)
+    else:
+        raise ValueError("Ambiente inválido. Use 'local' ou 'remoto'.")
 
     db.init_app(app)
 
