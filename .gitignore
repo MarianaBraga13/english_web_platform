@@ -2,6 +2,7 @@
 encryption_key.txt
 website/entradaaws.pem
 database.ini
+.env
 
 # Flask:
 instance/
