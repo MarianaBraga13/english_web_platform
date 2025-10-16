@@ -1,76 +1,26 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from os import path
-from sshtunnel import SSHTunnelForwarder
-from .config import db_config, ssh_config
+from .config import load_encrypted_config
+from pathlib import Path
 
 db = SQLAlchemy()
 
-def create_app(ambiente="local"):
+def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'dev'
+    app.config['SECRET_KEY'] = '65c31d35bc79ff5e551a20326cbca1a8'  # ou usa a do .env se preferir
 
-    if ambiente == "local":
-        #Banco local
-        username = db_config['username']
-        password = db_config['password']
-        database = db_config['database']
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{username}:{password}@localhost:5432/{database}'
-        print("Conectando ao banco de dados LOCAL...")
+    # Carrega o banco
+    config_file = Path(__file__).parent / 'database.ini'
+    db_config = load_encrypted_config(config_file)
 
-    elif ambiente == "remoto":
-        #Banco via túnel SSH
-        hostname = db_config['hostname']
-        port_id = db_config['port']
-        database = db_config['database']
-        username = db_config['username']
-        pwd = db_config['password']
+    # Escolhe local ou remoto conforme desejar
+    pg = db_config['postgresql']
 
-        #jumpserver para conectar com o servidor remoto (AWS)
-        jumpserver = ssh_config['jumpserver']
-        ssh_user = ssh_config['ssh_user']
-        ssh_key_path = ssh_config['ssh_key_path']
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        f"postgresql://{pg['username']}:{pg['password']}@"
+        f"{pg['hostname']}:{pg['port']}/{pg['database']}"
+    )
 
-        tunnel = SSHTunnelForwarder(
-            (jumpserver, 22),
-            ssh_username=ssh_user,
-            ssh_pkey=ssh_key_path,
-            remote_bind_address=(hostname, port_id)
-        )
-
-        tunnel.start()
-        local_port = tunnel.local_bind_port
-
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{username}:{pwd}@127.0.0.1:{local_port}/{database}'
-        print(f"Conectado ao banco REMOTO via túnel SSH (porta local{local_port})")
 
     db.init_app(app)
-
-    from .views import views
-    from .auth import auth
-    app.register_blueprint(views, url_prefix='/')
-    app.register_blueprint(auth, url_prefix='/')
-
-    from .models import Usuario, ConteudoTeste
-    with app.app_context():
-        db.create_all()
-
-    #Login Manager (para acessar a página é necessário fazer o login)
-    login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
-    login_manager.init_app(app)
-    login_manager.login_message = "To access this page you need to be logged in."
-    login_manager.login_message_category = "error"
-
-    #acrescentando o decorator para condicionar o meio de reconhecimento do user: seu id
-    @login_manager.user_loader
-    def load_usuario(id):
-        return Usuario.query.get(int(id))
-    
     return app
-
-
-
-
-
