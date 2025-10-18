@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from .models import Usuario, ConteudoTeste, Testerespostas, Testeresultado
-from .__init__ import db #DB importado do arquivo init
+from . import db #DB importado do arquivo init
 
 
 views = Blueprint('views', __name__)
