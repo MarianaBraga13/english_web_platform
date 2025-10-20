@@ -25,7 +25,27 @@ def conteudo():
     if nivel_conteudo not in ['A', 'B', 'C']:
         flash('Please take the English Tests Level to unlock the course content.', category='error')
 
+    # Conteúdos já existentes do banco
     conteudos = ConteudoTeste.query.filter_by(nivel_conteudo=nivel_conteudo).all()
+
+    # --- Vídeos de teste (somente para mostrar) ---
+    videos_teste = [
+        {"titulo": "Vídeo Teste 1", "url": "https://www.youtube.com/watch?v=JxHiuCI2Xro"},
+        {"titulo": "Vídeo Teste 2", "url": "https://www.youtube.com/watch?v=euIqptZpe5Q"},
+        {"titulo": "Vídeo Teste 3", "url": "https://youtu.be/VyCgJdRzAvA?si=kgyCuuKM6w-bPks_"},
+        {"titulo": "Vídeo Teste 3", "url": "https://youtu.be/OQ0GMdX3daE?si=0D8ZPToM9WU3jFVW"}
+        
+    ]
+
+    # Transformando os vídeos em objetos compatíveis com o template
+    class VideoFake:
+        def __init__(self, titulo, url):
+            self.titulo = titulo
+            self.url = url
+
+    for video in videos_teste:
+        conteudos.append(VideoFake(video["titulo"], video["url"]))
+
     return render_template("conteudo.html", usuario=current_user, conteudos=conteudos)
 
 @views.route('/nivelamento', methods=['GET', 'POST'])
