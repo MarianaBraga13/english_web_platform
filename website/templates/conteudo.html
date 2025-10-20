@@ -3,41 +3,55 @@
 
 {% block body %} 
 
-<section id="contact" class="py-5">
+<section id="content" class="py-5">
     <div class="container">
-    <div class="jumbotron">
-                <h2>Acess here the Content for your Classes!</h2>
-                <p>Explore our library of resources and documents to enhance your learning experience.</p>
+        <div class="jumbotron">
+            <h2>Access Here the Content for Your Classes!</h2>
+            <p>Explore our library of resources and videos to enhance your learning experience.</p>
 
-                {% if current_user.nivel_usuario == 'A' %}
+            {% if current_user.nivel_usuario == 'A' %}
                 <p>Level: Beginner</p>
-                {% elif current_user.nivel_usuario == 'B' %}
+            {% elif current_user.nivel_usuario == 'B' %}
                 <p>Level: Intermediate</p>
-                {% elif current_user.nivel_usuario == 'C' %}
-                <p>Level: Advanced </p>
-                {% else %}
+            {% elif current_user.nivel_usuario == 'C' %}
+                <p>Level: Advanced</p>
+            {% else %}
                 <p>Level: Unleveled student</p>
-                {% endif %}
-                
-          <!-- Links to access documents -->
-          <div class="row">
-            {% for conteudo in conteudos %}
-              <div class="col-md-6">
-                  <ul class="list-unstyled">
-                    
-                      <li>
-                          <a href= {{conteudo.url}} class="btn btn-link" target="_blank">
-                              <i class="far fa-file-word fa-lg"></i> {{conteudo.titulo}}
-                          </a>
-                      </li>
-                    
-                  </ul>
-            
-              </div>
-              
-          {% endfor %}    
-          </div>
-      </div>
-  </section>
+            {% endif %}
+
+            <h3 class="mt-4">Learning Materials</h3>
+            <div class="row">
+                {% for conteudo in conteudos %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ conteudo.titulo }}</h5>
+
+                                {% if 'youtube.com' in conteudo.url %}
+                                    <!-- YouTube Video -->
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe class="embed-responsive-item"
+                                            src="{{ conteudo.url | replace('watch?v=', 'embed/') }}"
+                                            title="{{ conteudo.titulo }}"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                {% else %}
+                                    <!-- Document Link -->
+                                    <a href="{{ conteudo.url }}" class="btn btn-outline-primary mt-3 w-100" target="_blank">
+                                        <i class="far fa-file-alt fa-lg"></i> Open Document
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>
 
 {% endblock %}
